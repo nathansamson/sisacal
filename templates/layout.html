@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %} - SisA Calendar</title>
+    {% endblock %}
+  </head>
+<body>
+  <header>
+    <h1>SisA Calendar</h1>
+  </header>
+  <div id="content">{% block content %}{% endblock %}</div>
+  <footer>
+    {% block footer %}
+      <div class="important">
+        <p>
+          Deze website is onafhankelijk van zowel de Universiteit Antwerpen als
+          Oracle PeopleSoft.
+        </p>
+          
+        <p>
+          Door in te loggen op deze site met uw UA inloggegevens gaat u ermee
+          akkoord dat deze website toegang krijgt tot uw SisA. Deze website probeert
+          alleen maar gegevens te lezen maar is <strong>niet</strong> verantwoordelijk
+          voor enige schade aan uw studieroosters, inschrijvingen of andere.
+        </p>
+        
+        <p>
+          Deze website is <strong>onbeveiligd</strong>. Dit stelt derden in staat om uw inloggegevens te onderscheppen.
+        </p>
+        
+        <p>
+          Deze website belooft zich ertoe uw inloggevens niet op te slaan, maar is <strong>niet
+          verantwoordelijk</strong> voor eventuele toegangslogs waar uw gegevens in staan.
+        </p>
+      </div>
+    
+      <p>&copy; Copyright <a href="mailto:nathan.samson@student.ua.ac.be">Nathan Samson</a>.<p>
+      
+      <p>Deze site is gelicensieerd onder de <a href="http://www.gnu.org/licenses/agpl.txt">AGPLv3</a>, de broncode is te vinden op
+      <a href="http://github.com/nathansamson/sisacal">Github</a>
+    {% endblock %}
+  </footer>
+</body>

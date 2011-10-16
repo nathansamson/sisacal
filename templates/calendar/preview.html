@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Kalender{% endblock %}
+
+{% block content %}
+	<ul>
+	{% for course in calendar.courses %}
+		{% if course.contact_moments %}
+		<li><h1>{{ course.name }}</h1>
+			<ul>
+			{% for contact in course.contact_moments %}
+				<li><strong>{{ contact.course_part }}</strong> <em>{{ week_day_to_text[contact.week_day] }} {{ contact.start_hour.strftime('%H:%M') }}-{{ contact.end_hour.strftime('%H:%M') }}</em> van {{ contact.docent }} @ <strong><em>{{ contact.location }}</em></strong>
+			
+					<ol>
+					{% for day in contact.days() %}
+						<li>{{ day.strftime('%d/%m/%Y') }}</li>
+					{% endfor %}
+					</ol>
+				</li>
+			{% endfor %}
+			</ul>
+		</li>
+		{% endif %}
+	{% endfor %}
+	</ul>
+{% endblock %}

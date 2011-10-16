@@ -1,0 +1,5 @@
+Flask>=0.7.2
+requests>=0.6.4
+calendar
+lxml>=2.3.1
+BeautifulSoup

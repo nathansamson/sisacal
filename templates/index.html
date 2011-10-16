@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+  <h1>Welkom</h1>
+  
+  <p>
+    Welkom bij SisACal, de website die automatisch uw persoonlijke  
+    Studierooster zoals die op <a href="https://sisastudent.ua.ac.be/">SisA</a> 
+    beschikbaar is kan exporteren naar zowel iCal en Google Calendar.
+  </p>
+  
+  <section>
+    <h1>Inloggen</h1>
+    <form action="{{ url_for('login') }}" method="post"> 
+      <p>
+        <label for="ua_username">UA Gebruikersnaam: </label>
+        <input id="ua_username" type="text" name="ua_username" placeholder="s012345" />
+      </p>
+      
+      <p>
+        <label for="ua_password">UA Wachtwoord: </label>
+        <input id="ua_password" name="ua_password" type="password" placeholder="password" />
+      </p>
+      
+      <input type="submit" value="Kalender opstellen" />
+    </form>
+  </section>
+  
+  <p>
+    SisACal gebruiken is zeer simpel. Uw geeft uw inloggegevens op (zie hierboven)
+    en uw komt op een pagina waarbij u uw lessen kunt zien.
+  </p>
+  
+  <p>
+    Wanneer uw tevreden bent met de lessenrooster en eventueel aanpassingen hebt
+    gedaan klikt u gewoon op de knop "Exporteer naar iCal" of "Exporteer naar Google Calendar".
+  </p>
+{% endblock %}

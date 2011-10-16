@@ -1,0 +1,100 @@
+body {
+	font-family: Verdana, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+body > header {
+	background-color: #333;
+	color: white;
+
+	padding: 0.5em 0.5em;
+}
+
+body > header h1
+{	
+	margin: 0;
+	font-size: 2em;
+}
+
+body > footer, #content {
+	padding: 0.5em;
+}
+
+#content, body > footer > div, body > footer > p {
+	max-width: 960px;
+}
+
+h1 {
+	font-size: 1.5em;
+}
+
+footer {
+	font-size: 0.8em;
+	
+	background-color: #666;
+	color: white;
+}
+
+footer .important {
+	font-size: 1.4em;
+	border-radius: 0.25em;
+	border: solid 1px red;
+	
+	margin: 0.5em 0;
+	padding: 0.5em;
+	background-color: yellow;
+	color: red;
+}
+
+footer .important strong {
+	font-size: 1.2em;
+}
+
+p {
+	text-align: justify;
+}
+
+a {
+	color: inherit;
+}
+
+/* Forms */
+
+form p label {
+	display: inline-block;
+	min-width: 14em;
+	text-align: right;
+	
+	vertical-align: middle;
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+	border: solid 1px black;
+	width: 14em;
+	
+	font-size: 1.2em;
+}
+
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus {
+	border-color: #999;
+}
+
+input[type=submit] {
+	border: solid 1px black;
+	background-color: #999;
+	padding: 0.5em;
+	border-radius: 0.25em;
+}
+
+input[type=submit]:hover {
+	background-color: #ccc;
+}
+
+input[type=submit]:active {
+	background-color: #aaa;
+}
