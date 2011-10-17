@@ -9,6 +9,7 @@ body > header {
 	color: white;
 
 	padding: 0.5em 0.5em;
+	margin-bottom: 1em;
 }
 
 body > header h1
@@ -34,6 +35,8 @@ footer {
 	
 	background-color: #666;
 	color: white;
+	
+	margin-top: 1em;
 }
 
 footer .important {
