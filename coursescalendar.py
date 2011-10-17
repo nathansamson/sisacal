@@ -81,8 +81,6 @@ class Course:
         start_week = start_week_date.isocalendar()[0:2]
         end_week = end_week_date.isocalendar()[0:2]
         
-        print start_week, ' -- ', end_week
-        
         if end_week[0] > start_week[0]:
             raise Exception("Courses that go around a year are not yet supported")
         weeks = [[start_week[0], week] for week in range(start_week[1], 
