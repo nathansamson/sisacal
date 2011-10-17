@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//SisACal/export//NONSGML v1.0//EN
+{% for course in calendar.courses %}
+{% for contact in course.contact_moments %}
+{% for datetimes in contact.datetimes() %}
+BEGIN:VEVENT
+UID:{{ datetimes.start }}-{{ course.name }}-{{ contact.course_part }}-{{ loop.index }}@sisacal.heroku.com
+DTSTAMP:{{ datetimes.start.strftime('%Y%m%dT%H%M%S') }}
+DTSTART:{{ datetimes.start.strftime('%Y%m%dT%H%M%S') }}
+DTEND:{{ datetimes.end.strftime('%Y%m%dT%H%M%S') }}
+SUMMARY:{{ course.name }} - {{ contact.course_part }} ({{ contact.docent }})
+LOCATION:{{ contact.location }}
+END:VEVENT
+{% endfor %}
+{% endfor %}
+{% endfor %}
+END:VCALENDAR

@@ -19,6 +19,7 @@ import flask
 
 import coursescalendar
 import sisa
+import ical
 
 app = flask.Flask(__name__)
 
@@ -49,7 +50,18 @@ def preview():
                                  calendar=sisa_connection.calendar(),
                                  week_day_to_text=coursescalendar.WEEKDAY_TO_TEXT)
 
+@app.route('/export/ical')
+def export_ical():
+    sisa_connection = sisa.SisA(flask.session['sisa_cookies'])
+    ical_export = ical.ICal(sisa_connection.calendar())
+    
+    resp = flask.make_response(ical_export.export())
+    resp.headers['Content-Disposition'] = 'attachment; filename="ical.ics"'
+    resp.headers['Content-Type'] = 'text/calendar; charset=UTF-8'
+    return resp
+
 if __name__ == "__main__":
+    app.debug = True
     app.secret_key = os.environ.get("SECRET_KEY")
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)

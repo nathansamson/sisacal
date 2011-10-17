@@ -2,6 +2,8 @@
 {% block title %}Kalender{% endblock %}
 
 {% block content %}
+<a href="{{ url_for('export_ical') }}" class="button">Exporteer naar iCal</a>
+
 	<ul>
 	{% for course in calendar.courses %}
 		{% if course.contact_moments %}
@@ -22,4 +24,6 @@
 		{% endif %}
 	{% endfor %}
 	</ul>
+
+<a href="{{ url_for('export_ical') }}" class="button">Exporteer naar iCal</a>
 {% endblock %}

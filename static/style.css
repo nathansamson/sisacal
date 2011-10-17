@@ -84,17 +84,17 @@ input[type=password]:focus {
 	border-color: #999;
 }
 
-input[type=submit] {
+input[type=submit], a.button {
 	border: solid 1px black;
 	background-color: #999;
 	padding: 0.5em;
 	border-radius: 0.25em;
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover, a.button:hover {
 	background-color: #ccc;
 }
 
-input[type=submit]:active {
+input[type=submit]:active, a.button:active {
 	background-color: #aaa;
 }

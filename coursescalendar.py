@@ -47,13 +47,24 @@ class ContactMoment:
         self.location = location
         self.docent = docent
 
-    def days(self):
-        days = []
+    def datetimes(self):
+        datets = []
         for week in self.weeks:
-            day = datetime.datetime.strptime('-'.join([str(i) for i in week]) + '-' + str(self.week_day % 7), '%Y-%W-%w')
-            days.append(day.date())
+            day_str = '-'.join([str(i) for i in week]) + '-' + str(self.week_day % 7)
+            day = datetime.datetime.strptime(day_str, '%Y-%W-%w')
+
+            start = datetime.datetime(day.year, day.month, day.day,
+                                      self.start_hour.hour, self.start_hour.minute)
+            end = datetime.datetime(day.year, day.month, day.day,
+                                    self.end_hour.hour, self.end_hour.minute)
+
+            datet = {'start': start, 'end': end}
+            datets.append(datet)
         
-        return days
+        return datets
+
+    def days(self):
+        return [datet['start'].date() for datet in self.datetimes()]
             
 
 class Course:
