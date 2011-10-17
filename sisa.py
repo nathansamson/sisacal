@@ -42,12 +42,16 @@ class SisA():
                                          cookies=self.cookies)
         self.cookies = login.cookies
         
-        if login.status_code == SisA.__PERMANENT_REDIRECT:
+        if 'PS_TOKEN' in login.cookies:
             return True
         else:
             raise SisALoginError()
 
     def calendar(self):
+        raise SisALoginError()
+        if not 'PS_TOKEN' in self.cookies:
+            raise SisALoginError()
+        
         r = requests.get(SisA.__CALENDAR_URL, cookies=self.cookies)
     
         r = requests.post(SisA.__CHANGE_CORRECT_CALENDAR_URL, cookies=r.cookies,
@@ -56,8 +60,12 @@ class SisA():
     
         r = requests.get(SisA.__CALENDAR_URL, cookies=r.cookies)
         self.cookies = r.cookies
-        
+
         html = soupparser.fromstring(r.content)
+        
+        if len(html.xpath('//table[@id="WEEKLY_SCHED_HTMLAREA"]')) > 0:
+            raise SisALoginError()
+        
         courses = html.xpath('//table[.//td[@class="PAGROUPDIVIDER"]][@class="PSGROUPBOXWBO"]')
         
         calendar = coursescalendar.CoursesCalendar()

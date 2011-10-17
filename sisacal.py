@@ -27,38 +27,52 @@ app = flask.Flask(__name__)
 def index():
     return flask.render_template('index.html')
 
-@app.route("/login", methods=['POST'])
+@app.route("/login", methods=['POST', 'GET'])
 def login():
-    ua_userid = flask.request.form['ua_username']
-    ua_password = flask.request.form['ua_password']
-    
-    sisa_connection = sisa.SisA()
-    try:
-        sisa_connection.login(ua_userid, ua_password)
-        flask.flash('U bent ingelogd en kunt uw kalender bekijken', 'notice')
-        flask.session['sisa_cookies'] = sisa_connection.cookies
-        return flask.redirect(flask.url_for('preview'))
-    except sisa.SisALoginError as exc:
-        flask.flash('Uw inloggegevens waren niet correct', 'error')
+    if flask.request.method == 'POST':
+        ua_userid = flask.request.form['ua_username']
+        ua_password = flask.request.form['ua_password']
+        
+        sisa_connection = sisa.SisA()
+        try:
+            sisa_connection.login(ua_userid, ua_password)
+            flask.flash('U bent ingelogd en kunt uw kalender bekijken', 'notice')
+            flask.session['sisa_cookies'] = sisa_connection.cookies
+            return flask.redirect(flask.url_for('preview'))
+        except sisa.SisALoginError as exc:
+            flask.flash('Uw inloggegevens waren niet correct', 'error')
+            return flask.render_template('login.html')
+    else:
         return flask.render_template('login.html')
 
 @app.route('/calendar/preview')
 def preview():
     sisa_connection = sisa.SisA(flask.session['sisa_cookies'])
 
-    return flask.render_template('calendar/preview.html',
-                                 calendar=sisa_connection.calendar(),
-                                 week_day_to_text=coursescalendar.WEEKDAY_TO_TEXT)
+    try:
+        return flask.render_template('calendar/preview.html',
+                                     calendar=sisa_connection.calendar(),
+                                     week_day_to_text=coursescalendar.WEEKDAY_TO_TEXT)
+    except sisa.SisALoginError as exc:
+        flask.flash('Uw sessie is verlopen, log opnieuw in.', 'error')
+        return flask.render_template('login.html')
 
 @app.route('/export/ical')
 def export_ical():
+
     sisa_connection = sisa.SisA(flask.session['sisa_cookies'])
-    ical_export = ical.ICal(sisa_connection.calendar())
-    
-    resp = flask.make_response(ical_export.export())
-    resp.headers['Content-Disposition'] = 'attachment; filename="ical.ics"'
-    resp.headers['Content-Type'] = 'text/calendar; charset=UTF-8'
-    return resp
+
+    try:
+        ical_export = ical.ICal(sisa_connection.calendar())
+        
+        resp = flask.make_response(ical_export.export())
+        resp.headers['Content-Disposition'] = 'attachment; filename="ical.ics"'
+        resp.headers['Content-Type'] = 'text/calendar; charset=UTF-8'
+        return resp
+    except sisa.SisALoginError as exc:
+        flask.flash('Uw sessie is verlopen, log opnieuw in.', 'error')
+        return flask.redirect(flask.url_for('login'))
+
 
 if __name__ == "__main__":
     app.debug = True
