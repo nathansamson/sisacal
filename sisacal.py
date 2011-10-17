@@ -14,6 +14,7 @@
 # along with SisACal.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
+import pytz
 import os
 import flask
 
@@ -41,7 +42,7 @@ def login():
             return flask.redirect(flask.url_for('preview'))
         except sisa.SisALoginError as exc:
             
-            now = datetime.datetime.now()
+            now = datetime.datetime.now(pytz.timezone('Europe/Brussels'))
             if now.hour >= 0 and now.hour < 5:
                 flask.flash('SisA is niet bereikbaar midden in de nacht. Probeer het morgen opnieuw.', 'notice')
             else:

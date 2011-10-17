@@ -3,3 +3,4 @@ requests>=0.6.4
 calendar
 lxml>=2.3.1
 BeautifulSoup
+pytz
