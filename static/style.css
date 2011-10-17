@@ -101,3 +101,27 @@ input[type=submit]:hover, a.button:hover {
 input[type=submit]:active, a.button:active {
 	background-color: #aaa;
 }
+
+.flashes {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.flashes li {
+	border: solid 1px black;
+	margin: 1em 0;
+	padding: 0.5em;
+	
+	max-width: 960px;
+}
+
+.flashes li.notice {
+	background-color: #999;
+	color: black;
+}
+
+.flashes li.error {
+	background-color: yellow;
+	color: black;
+}
