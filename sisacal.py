@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with SisACal.  If not, see <http://www.gnu.org/licenses/>.
 
-
+import datetime
 import os
 import flask
 
@@ -40,7 +40,13 @@ def login():
             flask.session['sisa_cookies'] = sisa_connection.cookies
             return flask.redirect(flask.url_for('preview'))
         except sisa.SisALoginError as exc:
-            flask.flash('Uw inloggegevens waren niet correct', 'error')
+            
+            now = datetime.datetime.now()
+            if now.hour >= 0 and now.hour < 5:
+                flask.flash('SisA is niet bereikbaar midden in de nacht. Probeer het morgen opnieuw.', 'notice')
+            else:
+                flask.flash('We konden u niet inloggen. Uw inloggegevens waren waarschijnlijk niet correct.', 'notice');
+            
             return flask.render_template('login.html')
     else:
         return flask.render_template('login.html')
