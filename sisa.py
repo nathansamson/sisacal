@@ -41,7 +41,7 @@ class SisA():
                                                         'pwd': password},
                                          cookies=self.cookies)
         self.cookies = login.cookies
-        
+
         if 'PS_TOKEN' in login.cookies:
             return True
         else:

@@ -4,6 +4,8 @@
 {% block content %}
 <a href="{{ url_for('export_ical') }}" class="button">Exporteer naar iCal</a>
 
+<a href="{{ google_export_url }}" class="button">Exporteer naar Google Calendar</a>
+
 	<ul>
 	{% for course in calendar.courses %}
 		{% if course.contact_moments %}
@@ -26,4 +28,6 @@
 	</ul>
 
 <a href="{{ url_for('export_ical') }}" class="button">Exporteer naar iCal</a>
+
+<a href="{{ google_export_url }}" class="button">Exporteer naar Google Calendar</a>
 {% endblock %}

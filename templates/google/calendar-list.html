@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}Kalender{% endblock %}
+
+{% block content %}
+<h1>Kies een kalender om uw uurrooster in te plaatsen</h1>
+
+<section>
+<form action="{{ url_for('google_export_calendar') }}" method="post">
+	<p>
+		<h1>Maak een nieuwe kalender (aanbevolen)</h1>
+		<label for="new-calendar">Naam van de kalender: </label>
+		<input type="text" name="new-calendar" id="new-calendar" placeholder="Collegerooster"/>
+	</p>
+	<input type="submit" value="Kalender exporteren" />
+
+			
+	<p class="option-sep">
+	 OF
+	</p>
+	
+
+	<p>
+		<h1>Kies een bestaande kalender</h1>
+		<select name="old-calendar" id="old-calendar">
+		<option value="">Selecteer een kalender</option>
+		{% for cal in calendars %}
+				<option value="{{ cal.content.src }}">{{ cal.title.text }}</option>
+		{% endfor %}
+		</select>
+	</p>
+	
+	<input type="submit" value="Kalender exporteren" />
+</form>
+</section>
+{% endblock %}

@@ -21,9 +21,10 @@ import flask
 import coursescalendar
 import sisa
 import ical
+import gcal
 
 app = flask.Flask(__name__)
-
+    
 @app.route("/")
 def index():
     return flask.render_template('index.html')
@@ -57,9 +58,12 @@ def preview():
     sisa_connection = sisa.SisA(flask.session['sisa_cookies'])
 
     try:
+        google_cal = gcal.GoogleCalendar(google_auth_token())
         return flask.render_template('calendar/preview.html',
                                      calendar=sisa_connection.calendar(),
-                                     week_day_to_text=coursescalendar.WEEKDAY_TO_TEXT)
+                                     week_day_to_text=coursescalendar.WEEKDAY_TO_TEXT,
+                                     google_export_url=google_cal.generate_login_url(
+                                        flask.request.url_root[0:-1] + flask.url_for('list_google_calendars')))
     except sisa.SisALoginError as exc:
         flask.flash('Uw sessie is verlopen, log opnieuw in.', 'error')
         return flask.render_template('login.html')
@@ -79,6 +83,58 @@ def export_ical():
     except sisa.SisALoginError as exc:
         flask.flash('Uw sessie is verlopen, log opnieuw in.', 'error')
         return flask.redirect(flask.url_for('login'))
+
+def google_auth_token():
+    if 'gcal-auth-token' in flask.session:
+        return flask.session['gcal-auth-token']
+    else:
+        return None
+
+@app.route("/export/google/list_calendars")
+def list_google_calendars():
+    google_cal = gcal.GoogleCalendar(auth_token=google_auth_token())
+    if 'token' in flask.request.args:
+        auth_token = google_cal.authenticate(flask.request.url)
+    
+        if auth_token == False:
+            flask.flash('We konden u niet authenticeren.', 'error')
+            return flask.redirect(flask.url_for('preview'))
+    
+        flask.session['gcal-auth-token'] = auth_token
+        return flask.redirect(flask.url_for('list_google_calendars'))
+    
+    calendars = google_cal.get_own_calendars()
+    if calendars == None:
+        flask.flash('Kon google calendar niet bereiken', 'error')
+        return flask.redirect(flask.url_for('preview'))
+    
+    return flask.render_template("google/calendar-list.html",
+                                 calendars=calendars)
+
+@app.route("/export/google/save", methods=['POST'])
+def google_export_calendar():
+    google_cal = gcal.GoogleCalendar(auth_token=google_auth_token())
+    sisa_connection = sisa.SisA(flask.session['sisa_cookies'])
+    
+    try:
+        export_cal = sisa_connection.calendar()
+    except:
+        flask.flash('Uw sessie is verlopen, log opnieuw in.', 'error')
+        return flask.redirect(flask.url_for('login'))
+
+    
+    form = flask.request.form
+    if 'new-calendar' in form and form['new-calendar'].strip() != "":    
+        exported = google_cal.export(export_cal, new_calendar_title=form['new-calendar'].strip())
+    elif 'old-calendar' in form and form['old-calendar'] != "":
+        exported = google_cal.export(export_cal, calendar_id=form['old-calendar'])
+    
+    if exported:
+        flask.flash('Uw kalender werd overgezet naar Google Calendar', 'notice')
+        return flask.redirect(flask.url_for('preview'))
+    else:
+        flask.flash('Uw kalender kon niet worden opgeslagen', 'error')
+        return flask.redirect(flask.url_for('list_google_calendars'))
 
 
 if __name__ == "__main__":

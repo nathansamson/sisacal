@@ -4,3 +4,4 @@ calendar
 lxml>=2.3.1
 BeautifulSoup
 pytz
+gdata>=2.0

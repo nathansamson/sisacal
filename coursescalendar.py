@@ -14,6 +14,7 @@
 # along with SisACal.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
+import pytz
 
 MONDAY = 1
 TUESDAY = 2
@@ -53,10 +54,12 @@ class ContactMoment:
             day_str = '-'.join([str(i) for i in week]) + '-' + str(self.week_day % 7)
             day = datetime.datetime.strptime(day_str, '%Y-%W-%w')
 
-            start = datetime.datetime(day.year, day.month, day.day,
-                                      self.start_hour.hour, self.start_hour.minute)
-            end = datetime.datetime(day.year, day.month, day.day,
-                                    self.end_hour.hour, self.end_hour.minute)
+            start = pytz.timezone('Europe/Brussels').localize(
+                        datetime.datetime(day.year, day.month, day.day,
+                                          self.start_hour.hour, self.start_hour.minute))
+            end = pytz.timezone('Europe/Brussels').localize(
+                        datetime.datetime(day.year, day.month, day.day,
+                                          self.end_hour.hour, self.end_hour.minute))
 
             datet = {'start': start, 'end': end}
             datets.append(datet)
