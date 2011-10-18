@@ -48,7 +48,6 @@ class SisA():
             raise SisALoginError()
 
     def calendar(self):
-        raise SisALoginError()
         if not 'PS_TOKEN' in self.cookies:
             raise SisALoginError()
         
