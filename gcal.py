@@ -34,6 +34,8 @@ class GoogleCalendar():
                     GoogleCalendar.SCOPES)
     
     def generate_login_url(self, return_url):
+        if self.calendar_client.auth_token:
+            return return_url
         return gdata.gauth.generate_auth_sub_url(return_url,
                                                  GoogleCalendar.SCOPES,
                                                  session=True)
