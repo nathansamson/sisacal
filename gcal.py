@@ -62,7 +62,7 @@ class GoogleCalendar():
                 calendar.title = atom.data.Title(text=new_calendar_title)
                 calendar.timezone = gdata.calendar.data.TimeZoneProperty(value="Europe/Brussels")
                 calendar.hidden = gdata.calendar.data.HiddenProperty(value='false')
-                calendar.color = gdata.calendar.data.ColorProperty(value='#003D64')
+                calendar.color = gdata.calendar.data.ColorProperty(value='#5C1158')
                 calendar = self.calendar_client.insert_calendar(new_calendar=calendar)
                 
                 if calendar.content == None:
