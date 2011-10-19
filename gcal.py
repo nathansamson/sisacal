@@ -92,4 +92,4 @@ class GoogleCalendar():
                     return False, 'Kon niet alles opslaan.'
             return True, ''
         except gdata.client.RequestError as e:
-            return False, 'Kon google niet contacteren'
+            return False, 'Kon google niet contacteren (\'%s\')' % str(e)
