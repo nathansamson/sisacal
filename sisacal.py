@@ -125,15 +125,15 @@ def google_export_calendar():
     
     form = flask.request.form
     if 'new-calendar' in form and form['new-calendar'].strip() != "":    
-        exported = google_cal.export(export_cal, new_calendar_title=form['new-calendar'].strip())
+        exported, error = google_cal.export(export_cal, new_calendar_title=form['new-calendar'].strip())
     elif 'old-calendar' in form and form['old-calendar'] != "":
-        exported = google_cal.export(export_cal, calendar_id=form['old-calendar'])
+        exported, error = google_cal.export(export_cal, calendar_id=form['old-calendar'])
     
     if exported:
         flask.flash('Uw kalender werd overgezet naar Google Calendar', 'notice')
         return flask.redirect(flask.url_for('preview'))
     else:
-        flask.flash('Uw kalender kon niet worden opgeslagen', 'error')
+        flask.flash('Uw kalender kon niet worden opgeslagen. Probeer nog eens opnieuw. ("%s")' % error, 'error')
         return flask.redirect(flask.url_for('list_google_calendars'))
 
 

@@ -66,7 +66,7 @@ class GoogleCalendar():
                 calendar = self.calendar_client.insert_calendar(new_calendar=calendar)
                 
                 if calendar.content == None:
-                    return False
+                    return False, 'Kon kalender niet maken'
                 cal_src = calendar.content.src
             else:
                 cal_src = calendar_id
@@ -89,8 +89,7 @@ class GoogleCalendar():
             for entry in response.entry:
                 if not (int(entry.batch_status.code) >= 200 and 
                         int(entry.batch_status.code) <300):
-                    return False
-            return True
+                    return False, 'Kon niet alles opslaan.'
+            return True, ''
         except gdata.client.RequestError as e:
-            print str(e)
-            return False
+            return False, 'Kon google niet contacteren'
