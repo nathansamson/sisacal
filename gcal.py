@@ -65,6 +65,8 @@ class GoogleCalendar():
                 calendar.color = gdata.calendar.data.ColorProperty(value='#003D64')
                 calendar = self.calendar_client.insert_calendar(new_calendar=calendar)
                 
+                if calendar.content == None:
+                    return False
                 cal_src = calendar.content.src
             else:
                 cal_src = calendar_id
@@ -85,9 +87,10 @@ class GoogleCalendar():
             response = self.calendar_client.execute_batch(batch_feed, cal_src + "/batch")
                                                
             for entry in response.entry:
-                if not (entry.batch_status.code >= 200 and 
-                        entry.batch_status.code <300):
+                if not (int(entry.batch_status.code) >= 200 and 
+                        int(entry.batch_status.code) <300):
                     return False
             return True
-        except gdata.client.RequestError:
+        except gdata.client.RequestError as e:
+            print str(e)
             return False
