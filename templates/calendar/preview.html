@@ -9,7 +9,7 @@
 	<section class="content-table">
 		<h1>Vakken</h1>
 		<ol>
-			{% for course in calendar.courses %}
+			{% for course in calendar.courses|sort(attribute='name') %}
 				{% if course.contact_moments %}
 					<li><a href="#{{ course.id() }}">{{ course.name }}</a>
 				{% endif %}
@@ -19,7 +19,7 @@
 
 	<section>
 	
-	{% for course in calendar.courses %}
+	{% for course in calendar.courses|sort(attribute='name') %}
 		{% if course.contact_moments %}
 		<article class="course">
 			<h1 id="{{ course.id() }}">{{ course.name }}</h1>
