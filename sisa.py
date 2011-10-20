@@ -92,7 +92,9 @@ class SisA():
                 xpath = contact_moment_row.xpath
                 course_part_potential = xpath('td[3]/span/text()')[0]
                 if len(course_part_potential.strip()) > 0:
-                   course_part = course_part_potential
+                    course_part = course_part_potential   
+                    if course_part == 'Hoorcoll.':
+                        course_part = 'Hoorcollege'
                 time_part = xpath('td[4]/span/text()')[0]
                 location = xpath('td[5]/span/text()')[0]
                 docent = ''.join(xpath('td[6]/span/text()'))
