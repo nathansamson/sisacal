@@ -47,7 +47,7 @@ def login():
             if now.hour >= 0 and now.hour < 5:
                 flask.flash('SisA is niet bereikbaar midden in de nacht. Probeer het morgen opnieuw.', 'notice')
             else:
-                flask.flash('We konden u niet inloggen. Uw inloggegevens waren waarschijnlijk niet correct.', 'notice');
+                flask.flash('We konden u niet inloggen. "%s"' % str(exc), 'notice');
             
             return flask.render_template('login.html')
     else:
@@ -65,7 +65,7 @@ def preview():
                                      google_export_url=google_cal.generate_login_url(
                                         flask.request.url_root[0:-1] + flask.url_for('list_google_calendars')))
     except sisa.SisALoginError as exc:
-        flask.flash('Uw sessie is verlopen, log opnieuw in.', 'error')
+        flask.flash('Uw kalender kon niet worden weergegeven "%s"' % str(exc), 'error')
         return flask.render_template('login.html')
 
 @app.route('/export/ical')
@@ -81,7 +81,7 @@ def export_ical():
         resp.headers['Content-Type'] = 'text/calendar; charset=UTF-8'
         return resp
     except sisa.SisALoginError as exc:
-        flask.flash('Uw sessie is verlopen, log opnieuw in.', 'error')
+        flask.flash('Uw kalender kon niet worden opgeslagen "%s"' % str(exc), 'error')
         return flask.redirect(flask.url_for('login'))
 
 def google_auth_token():

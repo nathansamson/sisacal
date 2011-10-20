@@ -22,7 +22,12 @@ from lxml.html import soupparser
 import coursescalendar
 
 class SisALoginError(Exception):
-    pass
+    def __init__(self, reason):
+        Exception.__init__(self, reason)
+        self.reason = reason
+    
+    def __str__(self):
+        return self.reason
 
 class SisA():
     __LOGIN_URL = "https://sisastudent.ua.ac.be/psp/studweb/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL?cmd=login&languageCd=DUT"
@@ -40,16 +45,19 @@ class SisA():
                                                         'userid': username,
                                                         'pwd': password},
                                          cookies=self.cookies)
+        if login.status_code == None:
+            raise SisALoginError(str(login.error.message.reason))
+        
         self.cookies = login.cookies
 
         if 'PS_TOKEN' in login.cookies:
             return True
         else:
-            raise SisALoginError()
+            raise SisALoginError("Uw login gegevens waren verkeerd.")
 
     def calendar(self):
         if not 'PS_TOKEN' in self.cookies:
-            raise SisALoginError()
+            raise SisALoginError('U bent niet ingelogd.')
         
         r = requests.get(SisA.__CALENDAR_URL, cookies=self.cookies)
     
@@ -63,7 +71,7 @@ class SisA():
         html = soupparser.fromstring(r.content)
         
         if len(html.xpath('//table[@id="WEEKLY_SCHED_HTMLAREA"]')) > 0:
-            raise SisALoginError()
+            raise SisALoginError('Uw sessie is waarschijnlijk vervallen.')
         
         courses = html.xpath('//table[.//td[@class="PAGROUPDIVIDER"]][@class="PSGROUPBOXWBO"]')
         
