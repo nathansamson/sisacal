@@ -52,6 +52,13 @@ class SisA():
         self.cookies = login.cookies
 
         if 'PS_TOKEN' in login.cookies:
+            r = requests.get(SisA.__CALENDAR_URL, cookies=self.cookies)
+
+            r = requests.post(SisA.__CHANGE_CORRECT_CALENDAR_URL, cookies=r.cookies,
+                          params={'ICAction': 'DERIVED_REGFRM1_SSR_SCHED_FORMAT$35$',
+                                  'DERIVED_REGFRM1_SSR_SCHED_FORMAT$35$': 'L'})
+            self.cookies = r.cookies
+        
             return True
         else:
             raise SisALoginError("Uw login gegevens waren verkeerd.")
@@ -61,12 +68,6 @@ class SisA():
             raise SisALoginError('U bent niet ingelogd.')
         
         r = requests.get(SisA.__CALENDAR_URL, cookies=self.cookies)
-    
-        r = requests.post(SisA.__CHANGE_CORRECT_CALENDAR_URL, cookies=r.cookies,
-                          params={'ICAction': 'DERIVED_REGFRM1_SSR_SCHED_FORMAT$35$',
-                                  'DERIVED_REGFRM1_SSR_SCHED_FORMAT$35$': 'L'})
-    
-        r = requests.get(SisA.__CALENDAR_URL, cookies=r.cookies)
         self.cookies = r.cookies
 
         html = soupparser.fromstring(r.content)
