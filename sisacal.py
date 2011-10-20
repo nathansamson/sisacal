@@ -62,6 +62,7 @@ def preview():
         return flask.render_template('calendar/preview.html',
                                      calendar=sisa_connection.calendar(),
                                      week_day_to_text=coursescalendar.WEEKDAY_TO_TEXT,
+                                     today=datetime.date.today(),
                                      google_export_url=google_cal.generate_login_url(
                                         flask.request.url_root[0:-1] + flask.url_for('list_google_calendars')))
     except sisa.SisALoginError as exc:

@@ -35,7 +35,6 @@ WEEKDAY_TO_TEXT = {
     SUNDAY: 'Zondag',
 }
 
-
 class ContactMoment(object):
     def __init__(self, course_part,
                        week_day,

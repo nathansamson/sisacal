@@ -194,3 +194,7 @@ input[type=submit]:active, a.button:active {
 .location:hover .full_info {
 	display: block;
 }
+
+.past {
+	text-decoration: line-through;
+}

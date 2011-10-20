@@ -48,7 +48,7 @@
 
 				<ol class="weeklist">
 				{% for day in contact.days() %}
-					<li>{{ day.strftime('%d/%m/%Y') }}</li>
+					<li {% if today > day %} class="past" {% endif %}>{{ day.strftime('%d/%m/%Y') }}</li>
 				{% endfor %}
 				</ol>
 			</section>
