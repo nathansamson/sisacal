@@ -23,7 +23,7 @@
 		{% if course.contact_moments %}
 		<article class="course">
 			<h1 id="{{ course.id() }}">{{ course.name }}</h1>
-			{% for contact in course.contact_moments %}
+			{% for contact in course.contact_moments|sort(attribute='week_day') %}
 			<section class="contact_moment">
 				<h2>{{ contact.course_part }} - <em>{{ week_day_to_text[contact.week_day] }}</em></h2>
 				<p>
