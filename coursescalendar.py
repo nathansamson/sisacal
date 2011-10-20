@@ -35,7 +35,7 @@ WEEKDAY_TO_TEXT = {
 }
 
 
-class ContactMoment:
+class ContactMoment(object):
     def __init__(self, course_part,
                        week_day,
                        start_hour, end_hour,
@@ -69,6 +69,15 @@ class ContactMoment:
     def days(self):
         return [datet['start'].date() for datet in self.datetimes()]
             
+    def merge(self, other):
+        for attr in ['course_part', 'week_day',
+                     'start_hour', 'end_hour', 'location', 'docent']:
+            if self.__dict__[attr] != other.__dict__[attr]:
+                return False
+        
+        self.weeks.extend(other.weeks)
+        
+        return True
 
 class Course:
     def __init__(self, code, name):
@@ -93,8 +102,17 @@ class Course:
                                        week_day,
                                        start_hour, end_hour,
                                        weeks, location, docent)
-        self.contact_moments.append(contact_moment)
-        return contact_moment
+        merged = False
+        for other_contact_moment in self.contact_moments:
+            if other_contact_moment.merge(contact_moment):
+                merged = True
+
+                break
+        if merged:
+            return other_contact_moment
+        else:
+            self.contact_moments.append(contact_moment)
+            return contact_moment
 
 class CoursesCalendar:
     def __init__(self):
