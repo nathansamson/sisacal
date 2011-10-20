@@ -6,12 +6,23 @@
 
 <a href="{{ google_export_url }}" class="button">Exporteer naar Google Calendar</a>
 
+	<section class="content-table">
+		<h1>Vakken</h1>
+		<ol>
+			{% for course in calendar.courses %}
+				{% if course.contact_moments %}
+					<li><a href="#{{ course.id() }}">{{ course.name }}</a>
+				{% endif %}
+			{% endfor %}
+		</ol>
+	</section>
+
 	<section>
 	
 	{% for course in calendar.courses %}
 		{% if course.contact_moments %}
 		<article class="course">
-			<h1>{{ course.name }}</h1>
+			<h1 id="{{ course.id() }}">{{ course.name }}</h1>
 			{% for contact in course.contact_moments %}
 			<section class="contact_moment">
 				<h2>{{ contact.course_part }} - <em>{{ week_day_to_text[contact.week_day] }}</em></h2>

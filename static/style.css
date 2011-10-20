@@ -146,7 +146,7 @@ input[type=submit]:active, a.button:active {
 }
 
 .course {
-	clear: both;
+	clear: left;
 	margin: 1em 0;
 }
 
@@ -161,4 +161,14 @@ input[type=submit]:active, a.button:active {
 	margin: 0 2em;
 	float: left;
 	min-width: 250px;
+}
+
+.content-table {
+	float: right;
+	
+	border: solid 2px black;
+	background-color: white;
+	padding: 0.5em;
+	text-align: left;
+	max-width: 220px;
 }

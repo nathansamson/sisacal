@@ -15,6 +15,7 @@
 
 import datetime
 import pytz
+import string
 
 MONDAY = 1
 TUESDAY = 2
@@ -113,6 +114,11 @@ class Course:
         else:
             self.contact_moments.append(contact_moment)
             return contact_moment
+    
+    def id(self):
+        invalid = '&"\' \t\n\r'
+        table = string.maketrans(invalid, '-' * len(invalid))
+        return str(self.code).lower().translate(table)
 
 class CoursesCalendar:
     def __init__(self):
