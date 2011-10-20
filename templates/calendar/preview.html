@@ -6,28 +6,36 @@
 
 <a href="{{ google_export_url }}" class="button">Exporteer naar Google Calendar</a>
 
-	<ul>
+	<section>
+	
 	{% for course in calendar.courses %}
 		{% if course.contact_moments %}
-		<li><h1>{{ course.name }}</h1>
-			<ul>
+		<article class="course">
+			<h1>{{ course.name }}</h1>
 			{% for contact in course.contact_moments %}
-				<li><strong>{{ contact.course_part }}</strong> <em>{{ week_day_to_text[contact.week_day] }} {{ contact.start_hour.strftime('%H:%M') }}-{{ contact.end_hour.strftime('%H:%M') }}</em> van {{ contact.docent }} @ <strong><em>{{ contact.location }}</em></strong>
-			
-					<ol>
-					{% for day in contact.days() %}
-						<li>{{ day.strftime('%d/%m/%Y') }}</li>
-					{% endfor %}
-					</ol>
-				</li>
+			<section class="contact_moment">
+				<h2>{{ contact.course_part }} - <em>{{ week_day_to_text[contact.week_day] }}</em></h2>
+				<p>
+					<strong>Tijdstip: </strong>{{ contact.start_hour.strftime('%H:%M') }} -{{ contact.end_hour.strftime('%H:%M') }} <br />
+					<strong>Locatie: </strong>{{ contact.location }} <br />
+					<strong>Docent:  </strong>{{ contact.docent }}<br />
+				</p>
+
+				<ol class="weeklist">
+				{% for day in contact.days() %}
+					<li>{{ day.strftime('%d/%m/%Y') }}</li>
+				{% endfor %}
+				</ol>
+			</section>
 			{% endfor %}
-			</ul>
-		</li>
+		</article>
 		{% endif %}
 	{% endfor %}
-	</ul>
+	</section>
 
+<div style="clear: both;">
 <a href="{{ url_for('export_ical') }}" class="button">Exporteer naar iCal</a>
 
 <a href="{{ google_export_url }}" class="button">Exporteer naar Google Calendar</a>
+</div>
 {% endblock %}

@@ -31,6 +31,7 @@ h1 {
 }
 
 footer {
+	clear: both;
 	font-size: 0.8em;
 	
 	background-color: #666;
@@ -136,4 +137,28 @@ input[type=submit]:active, a.button:active {
 
 #content section h1 {
 	font-size: 1.2em;
+	margin: 0.45em 0;
+}
+
+#content section h2 {
+	font-size: 1.1em;
+	margin: 0.2em 0;
+}
+
+.course {
+	clear: both;
+	margin: 1em 0;
+}
+
+.course h1 {
+	background-color: #aaa;
+	padding: 0.5em;
+	border-radius: 0.2em;
+}
+
+.contact_moment {
+	display: inline;
+	margin: 0 2em;
+	float: left;
+	min-width: 250px;
 }
