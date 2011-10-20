@@ -31,17 +31,34 @@ class Location:
 		self.building_name = building
 		self.aula_name = aula
 	
-	def full_name(self):
-		if self.info != None: # Basic info (campus)
+	def export_name(self):
+		if self.street:
+			return "%s - %s - %s" % (self.name, self.full_name(False), self.street)
+		elif self.campus_name:
+			return "%s - %s" % (self.name, self.full_name(False))
+		else:
+			return self.name
+	
+	def full_name(self, repeat_basic_info=True):
+		if self.info != None:
 			campus = self.campus_name if self.campus_name else self.info[Location.CAMPUS]
 			if self.aula_name:
-				return "%s %s (%s.%s)" % (campus, self.aula_name,
-				                          self.info[Location.BUILDING],
-				                          self.info[Location.AULA])
+				if repeat_basic_info:
+					return "%s %s (%s.%s)" % (campus, self.aula_name,
+				        	                  self.info[Location.BUILDING],
+				         	                  self.info[Location.AULA])
+				else:
+					return "%s %s" % (campus, self.aula_name)
 			elif self.building_name:
-				return "%s %s %s" % (campus, self.building_name, self.info[Location.AULA])
+				if repeat_basic_info:
+					return "%s %s %s" % (campus, self.building_name, self.info[Location.AULA])
+				else:
+					return "%s %s" % (campus, self.building_name)
 			else:
-				return "%s %s %s" % (campus, self.info[Location.BUILDING], self.info[Location.AULA])
+				if repeat_basic_info:
+					return "%s %s %s" % (campus, self.info[Location.BUILDING], self.info[Location.AULA])
+				else:
+					return "%s" % (campus)
 		else:
 			return self.name
 
@@ -87,7 +104,7 @@ class LocationFinder:
 		if 'name' in self.locations[campus]['buildings'][building]:
 			building_name = self.locations[campus]['buildings'][building]['name']
 		else:
-			building_name = building
+			building_name = None
 	
 		if aula not in self.locations[campus]['buildings'][building]['aulas']:
 			return Location(location, info,

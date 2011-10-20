@@ -10,7 +10,7 @@ DTSTAMP:{{ datetimes.start.strftime('%Y%m%dT%H%M%S') }}
 DTSTART:{{ datetimes.start.strftime('%Y%m%dT%H%M%S') }}
 DTEND:{{ datetimes.end.strftime('%Y%m%dT%H%M%S') }}
 SUMMARY:{{ course.name }} - {{ contact.course_part }} ({{ contact.docent }})
-LOCATION:{{ contact.location }}
+LOCATION:{{ contact.location.export_name() }}
 END:VEVENT
 {% endfor %}
 {% endfor %}

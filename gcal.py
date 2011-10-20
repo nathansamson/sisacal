@@ -82,6 +82,8 @@ class GoogleCalendar():
                         end_time = datetimes['end'].isoformat('T')
                         
                         new_event_entry.when.append(gdata.calendar.data.When(start=start_time, end=end_time))
+                        new_event_entry.where.append(gdata.calendar.data.CalendarWhere(value=contact.location.export_name()))
+
                         batch_feed.add_insert(new_event_entry)
             
             response = self.calendar_client.execute_batch(batch_feed, cal_src + "/batch")
