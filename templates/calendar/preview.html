@@ -25,12 +25,26 @@
 			<h1 id="{{ course.id() }}">{{ course.name }}</h1>
 			{% for contact in course.contact_moments|sort(attribute='week_day') %}
 			<section class="contact_moment">
-				<h2>{{ contact.course_part }} - <em>{{ week_day_to_text[contact.week_day] }}</em></h2>
-				<p>
-					<strong>Tijdstip: </strong>{{ contact.start_hour.strftime('%H:%M') }} -{{ contact.end_hour.strftime('%H:%M') }} <br />
-					<strong>Locatie: </strong>{{ contact.location }} <br />
+				<h2>{{ contact.course_part }} <em>{{ week_day_to_text[contact.week_day] }}</em></h2>
+				<section>
+					<strong>Tijdstip: </strong>{{ contact.start_hour.strftime('%H:%M') }} - {{ contact.end_hour.strftime('%H:%M') }} <br />
+					<strong>Locatie: </strong>
+						<article class="location">
+							{{ contact.location.name }}
+							<p class="full_info">
+								<strong>Naam: </strong>{{ contact.location.full_name() }}<br />
+								{% if contact.location.street %}
+									<strong>Straat: </strong>{{ contact.location.street }}<br />
+								{% endif %}
+								
+								{% if contact.location.coords %}
+									<small><a href="http://www.openstreetmap.org/?zoom=17&amp;layers=M&amp;mlat={{ contact.location.coords[0] }}&amp;mlon={{ contact.location.coords[1] }}" target="_blank">Op kaart bekijken</a></small>
+								{% endif %}
+							</p>
+						</article>
+						<br />
 					<strong>Docent:  </strong>{{ contact.docent }}<br />
-				</p>
+				</section>
 
 				<ol class="weeklist">
 				{% for day in contact.days() %}

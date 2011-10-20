@@ -72,9 +72,12 @@ class ContactMoment(object):
             
     def merge(self, other):
         for attr in ['course_part', 'week_day',
-                     'start_hour', 'end_hour', 'location', 'docent']:
+                     'start_hour', 'end_hour', 'docent']:
             if self.__dict__[attr] != other.__dict__[attr]:
                 return False
+        
+        if self.location.name != other.location.name:
+            return False
         
         self.weeks.extend(other.weeks)
         

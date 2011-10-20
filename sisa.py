@@ -20,6 +20,7 @@ from lxml import etree
 from lxml.html import soupparser
 
 import coursescalendar
+import locations
 
 class SisALoginError(Exception):
     def __init__(self, reason):
@@ -72,6 +73,8 @@ class SisA():
         
         if len(html.xpath('//table[@id="WEEKLY_SCHED_HTMLAREA"]')) > 0:
             raise SisALoginError('Uw sessie is waarschijnlijk vervallen.')
+        
+        location_finder = locations.LocationFinder('aulas.yml')
         
         courses = html.xpath('//table[.//td[@class="PAGROUPDIVIDER"]][@class="PSGROUPBOXWBO"]')
         
@@ -132,5 +135,5 @@ class SisA():
                                     week_day,
                                     start_hour, end_hour,
                                     start_week.date(), end_week.date(),
-                                    location, docent)
+                                    location_finder.find(location), docent)
         return calendar

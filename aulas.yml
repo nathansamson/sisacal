@@ -1,0 +1,41 @@
+M:
+  name: 'Middelheim'
+  buildings:
+    G:
+      street: 'Middelheimlaan 1'
+      coords: [51.184380, 4.420955]
+      aulas:
+        '016': 'Aula Jan Fabre'
+    A:
+      street: 'Middelheimlaan 1'
+      coords: [51.184743, 4.419892‎]
+      aulas:
+        pass
+S:
+  name: 'Stadscampus'
+  buildings:
+    R:
+      street: 'Rodestraat'
+      coords: [51.223429, 4.413443]
+      aulas: 
+        pass
+    M:
+      street: 'Sint-Jacobstraat'
+      name: 'De Meerminne'
+      aulas:
+        pass
+    K:
+      street: 'Kleine Kauwenberg'
+      aulas:
+        '002': Aula Rector Dhanis
+G:
+  name: 'Groenenborger'
+  buildings:
+    pass
+D:
+  name: 'Drie Eiken'
+  buildings:
+    S:
+      coords: [51.159913, 4.407644]
+      aulas:
+        pass

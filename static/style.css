@@ -172,3 +172,25 @@ input[type=submit]:active, a.button:active {
 	text-align: left;
 	max-width: 220px;
 }
+
+.location {
+	display: inline;
+	cursor: pointer;
+}
+
+.location .full_info {
+	cursor: auto;
+	display: none;
+
+	position: absolute;
+	
+	background-color: rgba(255, 255, 255, 0.8);
+	margin: 0;
+	padding: 1em;
+	
+	border: dotted 1px black;
+}
+
+.location:hover .full_info {
+	display: block;
+}
